@@ -7,16 +7,11 @@ const app = express();
 
 app.use(express.static('public'));
 
-//first route
+// Routes
+//TODO: auth
+app.use('/api/auth', require('./routes/auth'));
 
-/* app.get('/',(req,res)=> {
-
-    console.log('/ required')
-    res.status=200
-    res.json({
-        ok:true
-    })
-}) */
+//TODO: CRUD
 
 const port = process.env.PORT;
 app.listen(port, () => {
