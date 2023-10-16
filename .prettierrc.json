@@ -1,0 +1,7 @@
+{
+    "semi":true,
+    "singleQuote":true,
+    "trailingcomma": "es5",
+    "arrowPArens":"avoid",
+    "endOfLine":"auto"
+}
