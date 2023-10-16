@@ -7,6 +7,10 @@ const app = express();
 
 app.use(express.static('public'));
 
+//body parser
+
+app.use(express.json());
+
 // Routes
 //TODO: auth
 app.use('/api/auth', require('./routes/auth'));
