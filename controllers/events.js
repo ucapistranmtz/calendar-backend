@@ -21,4 +21,10 @@ const updateEvent = (req, res = response) => {
   });
 };
 
-module.exports = { getEvents, newEvent, updateEvent };
+const deleteEvent = (req, res = response) => {
+  res.status(200).json({
+    ok: true,
+    msg: 'Delete updated',
+  });
+};
+module.exports = { getEvents, newEvent, updateEvent, deleteEvent };

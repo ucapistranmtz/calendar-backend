@@ -1,5 +1,10 @@
 const { Router } = require('express');
-const { getEvents, newEvent, updateEvent } = require('../controllers/events');
+const {
+  getEvents,
+  newEvent,
+  updateEvent,
+  deleteEvent,
+} = require('../controllers/events');
 
 const { inputValidator } = require('../middlewares/inputValidator');
 const jwtValidator = require('../middlewares/jwtValidator');
@@ -14,5 +19,8 @@ router.post('/', inputValidator, newEvent);
 
 //update event
 router.put('/:id', inputValidator, updateEvent);
+
+//delete event
+router.delete('/:id', inputValidator, deleteEvent);
 
 module.exports = router;
