@@ -42,7 +42,7 @@ const updateEvent = async (req, res = response) => {
     const event = await Event.findById(eventId);
 
     if (!event) {
-      res.sendStatus(404).json({
+      return res.status(404).json({
         ok: false,
         msg: 'event does not exist',
       });
@@ -62,7 +62,7 @@ const updateEvent = async (req, res = response) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(eventId, newEvent);
 
-    res.status(200).json({
+    res.json({
       ok: true,
       event: updatedEvent,
     });
@@ -84,7 +84,7 @@ const deleteEvent = async (req, res = response) => {
     const event = await Event.findById(eventId);
 
     if (!event) {
-      res.sendStatus(404).json({
+      return res.status(404).json({
         ok: false,
         msg: 'event does not exist',
       });
@@ -97,11 +97,9 @@ const deleteEvent = async (req, res = response) => {
       });
     }
 
-    await Event.findByIdAndDelete({
-      _id: eventId,
-    });
+    await Event.findByIdAndDelete(eventId);
 
-    res.status(200).json({
+    res.json({
       ok: true,
     });
   } catch (error) {
