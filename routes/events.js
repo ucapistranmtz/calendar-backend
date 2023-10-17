@@ -7,13 +7,13 @@ const {
   deleteEvent,
 } = require('../controllers/events');
 
-const { inputValidator } = require('../middlewares/inputValidator');
+const jwtValidator = require('../middlewares/jwtValidator');
 const { isDate } = require('../helpers/isDate');
 
 const router = Router();
 
 //all routes should validate the token
-router.use(inputValidator);
+router.use(jwtValidator);
 //Get eventos
 router.get('/', getEvents);
 
