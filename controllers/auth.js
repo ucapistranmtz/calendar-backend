@@ -1,10 +1,11 @@
 const { response } = require('express');
 const { validationResult } = require('express-validator');
-
+const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 const registerUser = async (req, res = response) => {
   const { name, email, password } = req.body;
+
   try {
     let user = await User.findOne({ email });
 
@@ -13,19 +14,23 @@ const registerUser = async (req, res = response) => {
         ok: false,
         msg: 'user already exist with this email',
       });
-    } else {
-      user = new User(req.body);
-      await user.save();
-
-      res.status(201).json({
-        ok: false,
-        ok: true,
-        msg: 'register',
-        name,
-        email,
-        password,
-      });
     }
+
+    user = new User(req.body);
+
+    const salt = bcrypt.genSaltSync();
+    user.password = bcrypt.hashSync(password, salt);
+
+    await user.save();
+
+    res.status(201).json({
+      ok: false,
+      ok: true,
+      msg: 'register',
+      name,
+      email,
+      password,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
