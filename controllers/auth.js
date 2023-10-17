@@ -3,6 +3,8 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const { generateJWT } = require('../helpers/jwt');
+const jwt = require('jsonwebtoken');
+const jwtValidator = require('../middlewares/jwtValidator');
 
 const registerUser = async (req, res = response) => {
   const { name, email, password } = req.body;
@@ -80,11 +82,21 @@ const loginUser = async (req, res = response) => {
   }
 };
 
-const renewToken = (req, res = response) => {
+const renewToken = async (req, res = response) => {
+  const { uid, name } = req;
+
+  const token = await generateJWT(uid, name);
+  try {
+  } catch (error) {
+    console.error(error);
+  }
   res.status = 200;
   res.json({
     ok: true,
     msg: 'renew',
+    uid,
+    name,
+    token,
   });
 };
 
