@@ -2,6 +2,7 @@ const { response } = require('express');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const { generateJWT } = require('../helpers/jwt');
 
 const registerUser = async (req, res = response) => {
   const { name, email, password } = req.body;
@@ -22,6 +23,7 @@ const registerUser = async (req, res = response) => {
     user.password = bcrypt.hashSync(password, salt);
 
     await user.save();
+    const token = await generateJWT(user.id, user.name);
 
     res.status(201).json({
       ok: false,
@@ -29,7 +31,7 @@ const registerUser = async (req, res = response) => {
       msg: 'register',
       name,
       email,
-      password,
+      token,
     });
   } catch (error) {
     console.error(error);
@@ -61,11 +63,13 @@ const loginUser = async (req, res = response) => {
       });
     }
 
+    const token = await generateJWT(user.id, user.name);
     res.status = 200;
     res.json({
       ok: true,
       uid: user.id,
       name: user.name,
+      token,
     });
   } catch (error) {
     console.error(error);
