@@ -20,10 +20,10 @@ app.use(express.static('public'));
 app.use(express.json());
 
 // Routes
-//TODO: auth
+//Auth
 app.use('/api/auth', require('./routes/auth'));
-
-//TODO: CRUD
+//Events
+app.use('/api/events', require('./routes/events'));
 
 const port = process.env.PORT;
 app.listen(port, () => {
