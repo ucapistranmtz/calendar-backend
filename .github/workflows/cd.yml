@@ -21,4 +21,4 @@ jobs:
       env: 
         DB_CNN: ${{secrets.DB_CNN}}
         JWT_SECRET_SEED: ${{secrets.JWT_SECRET_SEED}}
-      run: sudo docker run -d -p 8080:8080 --env- DB_CNN= $DB_CNN  --env JWT_SECRET_SEED= $JWT_SECRET_SEED --env PORT=8080 -name calendar-container ucapistran/calendar
+      run: sudo docker run -d -p 8080:8080 --env DB_CNN= $DB_CNN  --env JWT_SECRET_SEED= $JWT_SECRET_SEED --env PORT=8080 -name calendar-container ucapistran/calendar
