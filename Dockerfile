@@ -1,4 +1,4 @@
-FROM node:current-alpine3.17
+FROM node:latest
 # Create app directory
 WORKDIR /usr/src/app
 # Install app dependencies
