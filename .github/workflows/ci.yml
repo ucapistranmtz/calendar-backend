@@ -18,4 +18,5 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Build the Docker image
       run: docker build -t calendar-backend .
+    - name: Push to DockerHub
       run: docker push ucapistran/calendar-backend:latest
