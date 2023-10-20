@@ -1,103 +1,102 @@
-const { response } = require('express');
-const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const { generateJWT } = require('../helpers/jwt');
-const jwt = require('jsonwebtoken');
-const jwtValidator = require('../middlewares/jwtValidator');
+const { response } = require('express')
+// const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs')
+const User = require('../models/User')
+const { generateJWT } = require('../helpers/jwt')
+// const jwt = require('jsonwebtoken');
+// const jwtValidator = require('../middlewares/jwtValidator');
 
 const registerUser = async (req, res = response) => {
-  const { name, email, password } = req.body;
+  const { name, email, password } = req.body
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email })
 
     if (user) {
-      res.status(400).json({
+      return res.status(400).json({
         ok: false,
-        msg: 'user already exist with this email',
-      });
+        msg: 'user already exist with this email'
+      })
     }
 
-    user = new User(req.body);
+    user = new User(req.body)
 
-    const salt = bcrypt.genSaltSync();
-    user.password = bcrypt.hashSync(password, salt);
+    const salt = bcrypt.genSaltSync()
+    user.password = bcrypt.hashSync(password, salt)
 
-    await user.save();
-    const token = await generateJWT(user.id, user.name);
+    await user.save()
+    const token = await generateJWT(user.id, user.name)
 
     res.status(201).json({
-      ok: false,
       ok: true,
       msg: 'register',
       name,
       email,
-      token,
-    });
+      token
+    })
   } catch (error) {
-    console.error(error);
+    console.error(error)
     res.status(500).json({
       ok: false,
-      error: 'please contact the administrator',
-    });
+      error: 'please contact the administrator'
+    })
   }
-};
+}
 
 const loginUser = async (req, res = response) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body
 
   try {
-    let user = await User.findOne({ email });
+    const user = await User.findOne({ email })
 
     if (!user) {
-      res.status(400).json({
+      return res.status(400).json({
         ok: false,
-        msg: 'user does not exists',
-      });
+        msg: 'user does not exists'
+      })
     }
 
-    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    const isPasswordValid = bcrypt.compareSync(password, user.password)
     if (!isPasswordValid) {
-      res.status(400).json({
+      return res.status(400).json({
         ok: false,
-        msg: 'Invalid password',
-      });
+        msg: 'Invalid password'
+      })
     }
 
-    const token = await generateJWT(user.id, user.name);
-    res.status = 200;
+    const token = await generateJWT(user.id, user.name)
+    res.status = 200
     res.json({
       ok: true,
       uid: user.id,
       name: user.name,
-      token,
-    });
+      token
+    })
   } catch (error) {
-    console.error(error);
+    console.error(error)
     res.status(500).json({
       ok: false,
-      error: 'please contact the administrator',
-    });
+      error: 'please contact the administrator'
+    })
   }
-};
+}
 
 const renewToken = async (req, res = response) => {
-  const { uid, name } = req;
-
-  const token = await generateJWT(uid, name);
+  const { uid, name } = req
+  let token
   try {
+    token = await generateJWT(uid, name)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-  res.status = 200;
+  res.status = 200
   res.json({
     ok: true,
     msg: 'renew',
     uid,
     name,
-    token,
-  });
-};
+    token
+  })
+}
 
-module.exports = { registerUser, loginUser, renewToken };
+module.exports = { registerUser, loginUser, renewToken }
