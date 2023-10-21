@@ -9,11 +9,11 @@ const app = express();
 // database
 dbConnection();
 // CORS
-var corsOptions = {
+/* var corsOptions = {
   origin: process.env.FRONT_END,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-app.use(cors(process.env.FRONT_END?corsOptions:undefined));
+} */
+//app.use(cors(process.env.FRONT_END?corsOptions:undefined));
 
 // public directory
 
