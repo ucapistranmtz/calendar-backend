@@ -1,31 +1,35 @@
-const express = require('express')
-const cors = require('cors')
-require('dotenv/config')
+const express = require('express');
+const cors = require('cors');
+require('dotenv/config');
 
-const { dbConnection } = require('./database/config')
+const { dbConnection } = require('./database/config');
 // express server
-const app = express()
+const app = express();
 
 // database
-dbConnection()
+dbConnection();
 // CORS
-app.use(cors())
+app.use(cors());
 
 // public directory
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 // body parser
 
-app.use(express.json())
+app.use(express.json());
 
 // Routes
 // Auth
-app.use('/api/auth', require('./routes/auth'))
+app.use('/api/auth', require('./routes/auth'));
 // Events
-app.use('/api/events', require('./routes/events'))
+app.use('/api/events', require('./routes/events'));
 
-const port = process.env.PORT
+app.get('*', (req, res) => {
+  res.send(__dirname + '/public/index.html');
+});
+
+const port = process.env.PORT;
 app.listen(port, () => {
-  console.log(`listening on port http://localhost:${port}`)
-})
+  console.log(`listening on port http://localhost:${port}`);
+});

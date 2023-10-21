@@ -1,2 +1,5 @@
+public
+
 *.yaml
 *.md
+.eslintrc.js
