@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "jest"
-   // "prepare": "husky install"
+ 
   },
   "repository": {
     "type": "git",
