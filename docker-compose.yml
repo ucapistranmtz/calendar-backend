@@ -1,0 +1,28 @@
+version: '3.8'
+
+secrets:
+  # Secrets are single-line text files where the sole content is the secret
+  # Paths in this example assume that secrets are kept in local folder called ".secrets"
+  DB_CNN:
+    file: .secrets/db_root_pwd.txt
+  JWT_SECRET_SEED:
+    file: .secrets/mysql_pwd.txt
+
+services:
+
+  calendar:
+    image: mern-calendar
+    privileged: true
+    volumes:
+      - './data:/data'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    restart: unless-stopped
+    ports:
+      # Public HTTP Port:
+      - '4000:4000'
+     
+
+networks:
+  default:
+    external: true
+    name: capistran-studio
